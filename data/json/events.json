@@ -1,0 +1,24 @@
+[
+  { "id": 1, "name": "Event Venue", "google_type": "event_venue", "category": "venue" },
+  { "id": 2, "name": "Wedding Venue", "google_type": "wedding_venue", "category": "venue" },
+  { "id": 3, "name": "Banquet Hall", "google_type": "banquet_hall", "category": "venue" },
+  { "id": 4, "name": "Conference Center", "google_type": "conference_center", "category": "venue" },
+  { "id": 5, "name": "Convention Center", "google_type": "convention_center", "category": "venue" },
+  { "id": 6, "name": "Exhibition Center", "google_type": "exhibition_center", "category": "venue" },
+  { "id": 7, "name": "Community Hall", "google_type": "community_center", "category": "venue" },
+  { "id": 8, "name": "Auditorium", "google_type": "auditorium", "category": "venue" },
+  { "id": 9, "name": "Amphitheatre", "google_type": "amphitheater", "category": "venue" },
+  { "id": 10, "name": "Stadium", "google_type": "stadium", "category": "venue" },
+
+  { "id": 11, "name": "Hotel", "google_type": "lodging", "category": "hospitality" },
+  { "id": 12, "name": "Resort", "google_type": "resort", "category": "hospitality" },
+  { "id": 13, "name": "Guest House", "google_type": "guest_house", "category": "hospitality" },
+  { "id": 14, "name": "Hostel", "google_type": "hostel", "category": "hospitality" },
+  { "id": 15, "name": "Villa", "google_type": "villa", "category": "hospitality" },
+
+  { "id": 16, "name": "Farmhouse", "google_type": "lodging", "category": "special_venue" },
+  { "id": 17, "name": "Lawn / Garden Venue", "google_type": "park", "category": "special_venue" },
+  { "id": 18, "name": "Beach Venue", "google_type": "beach", "category": "special_venue" },
+  { "id": 19, "name": "Club House", "google_type": "night_club", "category": "special_venue" },
+  { "id": 20, "name": "Rooftop Venue", "google_type": "restaurant", "category": "special_venue" }
+]

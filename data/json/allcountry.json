@@ -1,0 +1,1060 @@
+[
+  {
+    "name": "India",
+    "states": [
+      {
+        "state": "Andaman and Nicobar Islands",
+        "districts": ["Nicobar", "North and Middle Andaman", "South Andaman"]
+      },
+      {
+        "state": "Andhra Pradesh",
+        "districts": [
+          "Alluri Sitharama Raju",
+          "Anakapalli",
+          "Anantapur",
+          "Annamayya",
+          "Bapatla",
+          "Chittoor",
+          "East Godavari",
+          "Eluru",
+          "Guntur",
+          "Kadapa",
+          "Kakinada",
+          "Konaseema",
+          "Krishna",
+          "Kurnool",
+          "Nandyal",
+          "Nellore",
+          "NTR",
+          "Palnadu",
+          "Parvathipuram Manyam",
+          "Prakasam",
+          "Srikakulam",
+          "Tirupati",
+          "Visakhapatnam",
+          "Vizianagaram",
+          "West Godavari"
+        ]
+      },
+      {
+        "state": "Arunachal Pradesh",
+        "districts": [
+          "Anjaw",
+          "Changlang",
+          "Dibang Valley",
+          "East Kameng",
+          "East Siang",
+          "Itanagar Capital Complex",
+          "Kamle",
+          "Kra Daadi",
+          "Kurung Kumey",
+          "Lepa Rada",
+          "Lohit",
+          "Longding",
+          "Lower Dibang Valley",
+          "Lower Siang",
+          "Lower Subansiri",
+          "Namsai",
+          "Pakke-Kessang",
+          "Papum Pare",
+          "Shi Yomi",
+          "Siang",
+          "Tawang",
+          "Tirap",
+          "Upper Dibang Valley",
+          "Upper Siang",
+          "Upper Subansiri",
+          "West Kameng",
+          "West Siang"
+        ]
+      },
+      {
+        "state": "Assam",
+        "districts": [
+          "Baksa",
+          "Barpeta",
+          "Biswanath",
+          "Bongaigaon",
+          "Cachar",
+          "Charaideo",
+          "Chirang",
+          "Darrang",
+          "Dhemaji",
+          "Dhubri",
+          "Dibrugarh",
+          "Dima Hasao",
+          "Goalpara",
+          "Golaghat",
+          "Hailakandi",
+          "Hojai",
+          "Jorhat",
+          "Kamrup",
+          "Kamrup Metropolitan",
+          "Karbi Anglong",
+          "Karimganj",
+          "Kokrajhar",
+          "Lakhimpur",
+          "Majuli",
+          "Morigaon",
+          "Nagaon",
+          "Nalbari",
+          "Sivasagar",
+          "Sonitpur",
+          "South Salmara-Mankachar",
+          "Tinsukia",
+          "Udalguri",
+          "West Karbi Anglong"
+        ]
+      },
+      {
+        "state": "Bihar",
+        "districts": [
+          "Araria",
+          "Arwal",
+          "Aurangabad",
+          "Banka",
+          "Begusarai",
+          "Bhagalpur",
+          "Bhojpur",
+          "Buxar",
+          "Darbhanga",
+          "East Champaran",
+          "Gaya",
+          "Gopalganj",
+          "Jamui",
+          "Jehanabad",
+          "Kaimur",
+          "Katihar",
+          "Khagaria",
+          "Kishanganj",
+          "Lakhisarai",
+          "Madhepura",
+          "Madhubani",
+          "Munger",
+          "Muzaffarpur",
+          "Nalanda",
+          "Nawada",
+          "Patna",
+          "Purnia",
+          "Rohtas",
+          "Saharsa",
+          "Samastipur",
+          "Saran",
+          "Sheikhpura",
+          "Sheohar",
+          "Sitamarhi",
+          "Siwan",
+          "Supaul",
+          "Vaishali",
+          "West Champaran"
+        ]
+      },
+      {
+        "state": "Chhattisgarh",
+        "districts": [
+          "Balod",
+          "Baloda Bazar",
+          "Balrampur",
+          "Bastar",
+          "Bemetara",
+          "Bijapur",
+          "Bilaspur",
+          "Dantewada",
+          "Dhamtari",
+          "Durg",
+          "Gariaband",
+          "Gaurela-Pendra-Marwahi",
+          "Janjgir-Champa",
+          "Jashpur",
+          "Kabirdham",
+          "Kanker",
+          "Kondagaon",
+          "Korba",
+          "Koriya",
+          "Mahasamund",
+          "Mungeli",
+          "Narayanpur",
+          "Raigarh",
+          "Raipur",
+          "Rajnandgaon",
+          "Sukma",
+          "Surajpur",
+          "Surguja"
+        ]
+      },
+      {
+        "state": "Goa",
+        "districts": ["North Goa", "South Goa"]
+      },
+      {
+        "state": "Gujarat",
+        "districts": [
+          "Ahmedabad",
+          "Amreli",
+          "Anand",
+          "Aravalli",
+          "Banaskantha",
+          "Bharuch",
+          "Bhavnagar",
+          "Botad",
+          "Chhota Udaipur",
+          "Dahod",
+          "Dang",
+          "Devbhoomi Dwarka",
+          "Gandhinagar",
+          "Gir Somnath",
+          "Jamnagar",
+          "Junagadh",
+          "Kheda",
+          "Kutch",
+          "Mahisagar",
+          "Mehsana",
+          "Morbi",
+          "Narmada",
+          "Navsari",
+          "Panchmahal",
+          "Patan",
+          "Porbandar",
+          "Rajkot",
+          "Sabarkantha",
+          "Surat",
+          "Surendranagar",
+          "Tapi",
+          "Vadodara",
+          "Valsad"
+        ]
+      },
+      {
+        "state": "Haryana",
+        "districts": [
+          "Ambala",
+          "Bhiwani",
+          "Charkhi Dadri",
+          "Faridabad",
+          "Fatehabad",
+          "Gurugram",
+          "Hisar",
+          "Jhajjar",
+          "Jind",
+          "Kaithal",
+          "Karnal",
+          "Kurukshetra",
+          "Mahendragarh",
+          "Nuh",
+          "Palwal",
+          "Panchkula",
+          "Panipat",
+          "Rewari",
+          "Rohtak",
+          "Sirsa",
+          "Sonipat",
+          "Yamunanagar"
+        ]
+      },
+      {
+        "state": "Himachal Pradesh",
+        "districts": [
+          "Bilaspur",
+          "Chamba",
+          "Hamirpur",
+          "Kangra",
+          "Kinnaur",
+          "Kullu",
+          "Lahaul and Spiti",
+          "Mandi",
+          "Shimla",
+          "Sirmaur",
+          "Solan",
+          "Una"
+        ]
+      },
+      {
+        "state": "Jharkhand",
+        "districts": [
+          "Bokaro",
+          "Chatra",
+          "Deoghar",
+          "Dhanbad",
+          "Dumka",
+          "East Singhbhum",
+          "Garhwa",
+          "Giridih",
+          "Godda",
+          "Gumla",
+          "Hazaribagh",
+          "Jamtara",
+          "Khunti",
+          "Koderma",
+          "Latehar",
+          "Lohardaga",
+          "Pakur",
+          "Palamu",
+          "Ramgarh",
+          "Ranchi",
+          "Sahibganj",
+          "Seraikela-Kharsawan",
+          "Simdega",
+          "West Singhbhum"
+        ]
+      },
+      {
+        "state": "Karnataka",
+        "districts": [
+          {
+            "name": "Bagalkot",
+            "sub_districts": [
+              { "name": "Bagalkot", "unregistered": 0 },
+              { "name": "Mudhol", "unregistered": 0 },
+              { "name": "Badami", "unregistered": 0 },
+              { "name": "Jamkhandi", "unregistered": 0 },
+              { "name": "Bilagi", "unregistered": 0 },
+              { "name": "Guledgudda", "unregistered": 0 },
+              { "name": "Hungund", "unregistered": 0 },
+              { "name": "Ilkal", "unregistered": 0 },
+              { "name": "Rabakavi Banahatti", "unregistered": 0 },
+              { "name": "Terdal", "unregistered": 0 }
+
+            ]
+          },
+          {
+            "name": "Ballari",
+            "sub_districts": [
+              { "name": "Ballari", "unregistered": 0 },
+              { "name": "Kampli", "unregistered": 0 },
+              { "name": "Kurugodu", "unregistered": 0 },
+              { "name": "Sandur", "unregistered": 0 },
+              { "name": "Siruguppa", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Bangalore Rural",
+            "sub_districts": [
+              { "name": "Nelamangala", "unregistered": 0 },
+              { "name": "Doddaballapura", "unregistered": 0 },
+              { "name": "Devanahalli", "unregistered": 0 },
+              { "name": "Hoskote", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Bangalore South",
+            "sub_districts":[
+              { "name":"Channapatna", "unregistered": 0 },
+              { "name":"Harohalli", "unregistered": 0 },
+              { "name":"Kanakapura", "unregistered": 0 },
+              { "name":"Magadi", "unregistered": 0 },
+              { "name":"Ramanagara", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Bangalore Urban",
+            "sub_districts": [
+              { "name": "Bangalore North", "unregistered": 0 },
+              { "name": "Bangalore South", "unregistered": 0 },
+              { "name": "Bengaluru East", "unregistered": 0 },
+              { "name": "Anekal", "unregistered": 0 },
+              { "name": "Yelahanka", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Belagavi",
+            "sub_districts": [
+              { "name": "Belagavi", "unregistered": 0 },
+              { "name": "Gokak", "unregistered": 0 },
+              { "name": "Chikodi", "unregistered": 0 },
+              { "name": "Hukkeri", "unregistered": 0 },
+              { "name": "Athani", "unregistered": 0 },
+              { "name": "Saundatti", "unregistered": 0 },
+              { "name": "Bailahongala", "unregistered": 0 },
+              { "name": "Kagwad", "unregistered": 0 },
+              { "name": "Khanapur", "unregistered": 0 },
+              { "name": "Kittur", "unregistered": 0 },
+              { "name": "Mudalgi", "unregistered": 0 },
+              { "name": "Nippani", "unregistered": 0 },
+              { "name": "Ramdurg", "unregistered": 0 },
+              { "name": "Raybag", "unregistered": 0 },
+              { "name": "Yaragatti", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Ballari",
+            "sub_districts": [
+              { "name": "Ballari", "unregistered": 0 },
+              { "name": "Sandur", "unregistered": 0 },
+              { "name": "Siruguppa", "unregistered": 0 },
+              { "name": "Hospet", "unregistered": 0 },
+              { "name": "Harapanahalli", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Bidar",
+            "sub_districts": [
+              { "name": "Bidar", "unregistered": 0 },
+              { "name": "Humnabad", "unregistered": 0 },
+              { "name": "Aurad", "unregistered": 0 },
+              { "name": "Basavakalyan", "unregistered": 0 },
+              { "name": "Bhalki", "unregistered": 0 },
+              { "name": "Chitaguppa", "unregistered": 0 },
+              { "name": "Hulsoor", "unregistered": 0 },
+              { "name": "Kamalnagar", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Chamarajanagar",
+            "sub_districts": [
+              { "name": "Chamarajanagar", "unregistered": 0 },
+              { "name": "Kollegal", "unregistered": 0 },
+              { "name": "Yelandur", "unregistered": 0 },
+              { "name": "Gundlupet", "unregistered": 0 },
+              { "name": "Hanur", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Chikkaballapur",
+            "sub_districts": [
+              { "name": "Chikkaballapur", "unregistered": 0 },
+              { "name": "Gauribidanur", "unregistered": 0 },
+              { "name": "Bagepalli", "unregistered": 0 },
+              { "name": "Chintamani", "unregistered": 0 },
+              { "name": "Chelur", "unregistered": 0 },
+              { "name": "Gudibanda", "unregistered": 0 },
+              { "name": "Manchenahalli", "unregistered": 0 },
+              { "name": "Sidlaghatta", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Chikkamagaluru",
+            "sub_districts": [
+              { "name": "Chikkamagaluru", "unregistered": 0 },
+              { "name": "Mudigere", "unregistered": 0 },
+              { "name": "Kadur", "unregistered": 0 },
+              { "name": "Tarikere", "unregistered": 0 },
+              { "name": "Ajjampura", "unregistered": 0 },
+              { "name": "Kalasa", "unregistered": 0 },
+              { "name": "Koppa", "unregistered": 0 },
+              { "name": "Narasimharajapura", "unregistered": 0 },
+              { "name": "Sringeri", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Chitradurga",
+            "sub_districts": [
+              { "name": "Chitradurga", "unregistered": 0 },
+              { "name": "Holalkere", "unregistered": 0 },
+              { "name": "Hosadurga", "unregistered": 0 },
+              { "name": "Molakalmuru", "unregistered": 0 },
+              { "name": "Challakere", "unregistered": 0 },
+              { "name": "Hiriyur", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Dakshina Kannada",
+            "sub_districts": [
+              { "name": "Mangalore", "unregistered": 0 },
+              { "name": "Puttur", "unregistered": 0 },
+              { "name": "Belthangady", "unregistered": 0 },
+              { "name": "Sullia", "unregistered": 0 },
+              { "name": "Moodbidri", "unregistered": 0 },
+              { "name": "Mulki", "unregistered": 0 },
+              { "name": "Bantval", "unregistered": 0 },
+              { "name": "Ullal", "unregistered": 0 },
+              { "name": "kadaba", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Davanagere",
+            "sub_districts": [
+              { "name": "Davanagere", "unregistered": 0 },
+              { "name": "Harihar", "unregistered": 0 },
+              { "name": "Honnali", "unregistered": 0 },
+              { "name": "Channagiri", "unregistered": 0 },
+              { "name": "Jagalur", "unregistered": 0 },
+              { "name": "Nyamathi", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Dharwad",
+            "sub_districts": [
+              { "name": "Dharwad", "unregistered": 0 },
+              { "name": "Hubli", "unregistered": 0 },
+              { "name": "Kalghatgi", "unregistered": 0 },
+              { "name": "Navalgund", "unregistered": 0 },
+              { "name": "Kundgol", "unregistered": 0 },
+              { "name": "Hubballi Urban", "unregistered": 0 },
+              { "name": "Alnavar", "unregistered": 0 },
+              { "name": "Annigeri", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Gadag",
+            "sub_districts": [
+              { "name": "Gadag", "unregistered": 0 },
+              { "name": "Ron", "unregistered": 0 },
+              { "name": "Shirhatti", "unregistered": 0 },
+              { "name": "Nargund", "unregistered": 0 },
+              { "name": "Gajendragad", "unregistered": 0 },
+              { "name": "Laxmeshwar", "unregistered": 0 },
+              { "name": "Mundargi", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Hassan",
+            "sub_districts": [
+              { "name": "Hassan", "unregistered": 0 },
+              { "name": "Belur", "unregistered": 0 },
+              { "name": "Channarayapatna", "unregistered": 0 },
+              { "name": "Arsikere", "unregistered": 0 },
+              { "name": "Sakleshpur", "unregistered": 0 },
+              { "name": "Hole Narsipur", "unregistered": 0 },
+              { "name": "Arkalgud", "unregistered": 0 },
+              { "name": "Alur", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Haveri",
+            "sub_districts": [
+              { "name": "Haveri", "unregistered": 0 },
+              { "name": "Hirekerur", "unregistered": 0 },
+              { "name": "Shiggaon", "unregistered": 0 },
+              { "name": "Savanur", "unregistered": 0 },
+              { "name": "Byadgi", "unregistered": 0 },
+              { "name": "Ranibennur", "unregistered": 0 },
+              { "name": "Rattihalli", "unregistered": 0 },
+              { "name": "Hangal", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Kalaburagi",
+            "sub_districts": [
+              { "name": "Kalaburagi", "unregistered": 0 },
+              { "name": "Chittapur", "unregistered": 0 },
+              { "name": "Shahabad", "unregistered": 0 },
+              { "name": "Afzalpur", "unregistered": 0 },
+              { "name": "Sedam", "unregistered": 0 },
+              { "name": "Aland", "unregistered": 0 },
+              { "name": "Chincholi", "unregistered": 0 },
+              { "name": "Jevargi", "unregistered": 0 },
+              { "name": "Kalagi", "unregistered": 0 },
+              { "name": "Kamalapur", "unregistered": 0 },
+              { "name": "Yadrami", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Kodagu",
+            "sub_districts": [
+              { "name": "Madikeri", "unregistered": 0 },
+              { "name": "Virajpet", "unregistered": 0 },
+              { "name": "Somwarpet", "unregistered": 0 },
+              { "name": "Ponnampet", "unregistered": 0 },
+              { "name": "Kushalnagar", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Kolar",
+            "sub_districts": [
+              { "name": "Kolar", "unregistered": 0 },
+              { "name": "Mulbagal", "unregistered": 0 },
+              { "name": "Bangarapet", "unregistered": 0 },
+              { "name": "Malur", "unregistered": 0 },
+              { "name": "Srinivasapura", "unregistered": 0 },
+              { "name": "Kolar Gold Field", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Koppal",
+            "sub_districts": [
+              { "name": "Koppal", "unregistered": 0 },
+              { "name": "Gangavathi", "unregistered": 0 },
+              { "name": "Yelburga", "unregistered": 0 },
+              { "name": "Kushtagi", "unregistered": 0 },
+              { "name": "Kanakagiri", "unregistered": 0 },
+              { "name": "Karatagi", "unregistered": 0 },
+              { "name": "Kukanoor", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Mandya",
+            "sub_districts": [
+              { "name": "Mandya", "unregistered": 0 },
+              { "name": "Maddur", "unregistered": 0 },
+              { "name": "Malavalli", "unregistered": 0 },
+              { "name": "Srirangapatna", "unregistered": 0 },
+              { "name": "Krishnarajpet", "unregistered": 0 },
+              { "name": "Nagamangala", "unregistered": 0 },
+              { "name": "Pandavapura", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Mysuru",
+            "sub_districts": [
+              { "name": "Mysuru", "unregistered": 0 },
+              { "name": "Nanjangud", "unregistered": 0 },
+              { "name": "Hunsur", "unregistered": 0 },
+              { "name": "Heggadadevana Kote", "unregistered": 0 },
+              { "name": "Periyapatna", "unregistered": 0 },
+              { "name": "Krishnarajanagara", "unregistered": 0 },
+              { "name": "Tirumakudal - Narsipur", "unregistered": 0 },
+              { "name": "Saligrama", "unregistered": 0 },
+              { "name": "Saraguru", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Raichur",
+            "sub_districts": [
+              { "name": "Raichur", "unregistered": 0 },
+              { "name": "Manvi", "unregistered": 0 },
+              { "name": "Sindhanur", "unregistered": 0 },
+              { "name": "Devadurga", "unregistered": 0 },
+              { "name": "Lingsugur", "unregistered": 0 },
+              { "name": "Arakera", "unregistered": 0 },
+              { "name": "Maski", "unregistered": 0 },
+              { "name": "Sirwar", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Shivamogga",
+            "sub_districts": [
+              { "name": "Shivamogga", "unregistered": 0 },
+              { "name": "Sagar", "unregistered": 0 },
+              { "name": "Tirthahalli", "unregistered": 0 },
+              { "name": "Hosanagara", "unregistered": 0 },
+              { "name": "Soraba", "unregistered": 0 },
+              { "name": "Shikaripura", "unregistered": 0 },
+              { "name": "Bhadravati", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Tumakuru",
+            "sub_districts": [
+              { "name": "Tumakuru", "unregistered": 0 },
+              { "name": "Gubbi", "unregistered": 0 },
+              { "name": "Pavagada", "unregistered": 0 },
+              { "name": "Tiptur", "unregistered": 0 },
+              { "name": "Kunigal", "unregistered": 0 },
+              { "name": "Koratagere", "unregistered": 0 },
+              { "name": "Chiknayakanhalli", "unregistered": 0 },
+              { "name": "Madhugiri", "unregistered": 0 },
+              { "name": "Sira", "unregistered": 0 },
+              { "name": "Turuvekere", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Udupi",
+            "sub_districts": [
+              { "name": "Udupi", "unregistered": 0 },
+              { "name": "Karkala", "unregistered": 0 },
+              { "name": "Kundapura", "unregistered": 0 },
+              { "name": "Byndoor", "unregistered": 0 },
+              { "name": "Brahmavara", "unregistered": 0 },
+              { "name": "Hebri", "unregistered": 0 },
+              { "name": "Kaup", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Uttara Kannada",
+            "sub_districts": [
+              { "name": "Karwar", "unregistered": 0 },
+              { "name": "Sirsi", "unregistered": 0 },
+              { "name": "Haliyal", "unregistered": 0 },
+              { "name": "Bhatkal", "unregistered": 0 },
+              { "name": "Supa", "unregistered": 0 },
+              { "name": "Yellapur", "unregistered": 0 },
+              { "name": "Ankola", "unregistered": 0 },
+              { "name": "Dandeli", "unregistered": 0 },
+              { "name": "Honavar", "unregistered": 0 },
+              { "name": "Kumta", "unregistered": 0 },
+              { "name": "Mundgod", "unregistered": 0 },
+              { "name": "Siddapur", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Vijayanagara",
+            "sub_districts": [
+              { "name": "Hadagalli", "unregistered": 0 },
+              { "name": "Hagaribommanahalli", "unregistered": 0 },
+              { "name": "Harapanahalli", "unregistered": 0 },
+              { "name": "Hosapete", "unregistered": 0 },
+              { "name": "Kotturu", "unregistered": 0 },
+              { "name": "Kudligi", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Vijayapura",
+            "sub_districts": [
+              { "name": "Vijayapura", "unregistered": 0 },
+              { "name": "Basavana Bagevadi", "unregistered": 0 },
+              { "name": "Sindagi", "unregistered": 0 },
+              { "name": "Muddebihal", "unregistered": 0 },
+              { "name": "Almel", "unregistered": 0 },
+              { "name": "Babaleshwar", "unregistered": 0 },
+              { "name": "Devara Hipparagi", "unregistered": 0 },
+              { "name": "Chadchan", "unregistered": 0 },
+              { "name": "Indi", "unregistered": 0 },
+              { "name": "Kolhar", "unregistered": 0 },
+              { "name": "Nidagundi", "unregistered": 0 },
+              { "name": "Talikoti", "unregistered": 0 },
+              { "name": "Tikota", "unregistered": 0 }
+            ]
+          },
+          {
+            "name": "Yadgir",
+            "sub_districts": [
+              { "name": "Yadgir", "unregistered": 0 },
+              { "name": "Shahpur", "unregistered": 0 },
+              { "name": "Gurmitkal", "unregistered": 0 },
+              { "name": "Hunasagi", "unregistered": 0 },
+              { "name": "Shorapur", "unregistered": 0 },
+              { "name": "Wadagera", "unregistered": 0 }
+            ]
+          }
+        ]
+      },
+
+
+      {
+        "state": "Kerala",
+        "districts": [
+          "Alappuzha",
+          "Ernakulam",
+          "Idukki",
+          "Kannur",
+          "Kasaragod",
+          "Kollam",
+          "Kottayam",
+          "Kozhikode",
+          "Malappuram",
+          "Palakkad",
+          "Pathanamthitta",
+          "Thiruvananthapuram",
+          "Thrissur",
+          "Wayanad"
+        ]
+      },
+      {
+        "state": "Ladakh",
+        "districts": ["Kargil", "Leh"]
+      },
+      {
+        "state": "Madhya Pradesh",
+        "districts": [
+          "Agar Malwa",
+          "Alirajpur",
+          "Anuppur",
+          "Ashok Nagar",
+          "Balaghat",
+          "Barwani",
+          "Betul",
+          "Bhind",
+          "Bhopal",
+          "Burhanpur",
+          "Chhatarpur",
+          "Chhindwara",
+          "Damoh",
+          "Datia",
+          "Dewas",
+          "Dhar",
+          "Dindori",
+          "Guna",
+          "Gwalior",
+          "Harda",
+          "Hoshangabad",
+          "Indore",
+          "Jabalpur",
+          "Jhabua",
+          "Katni",
+          "Khandwa",
+          "Khargone",
+          "Mandla",
+          "Mandsaur",
+          "Morena",
+          "Narsinghpur",
+          "Neemuch",
+          "Panna",
+          "Raisen",
+          "Rajgarh",
+          "Ratlam",
+          "Rewa",
+          "Sagar",
+          "Satna",
+          "Sehore",
+          "Seoni",
+          "Shahdol",
+          "Shajapur",
+          "Sheopur",
+          "Shivpuri",
+          "Sidhi",
+          "Singrauli",
+          "Tikamgarh",
+          "Ujjain",
+          "Umaria",
+          "Vidisha"
+        ]
+      },
+      {
+        "state": "Maharashtra",
+        "districts": [
+          "Ahmednagar",
+          "Akola",
+          "Amravati",
+          "Aurangabad",
+          "Beed",
+          "Bhandara",
+          "Buldhana",
+          "Chandrapur",
+          "Dhule",
+          "Gadchiroli",
+          "Gondia",
+          "Hingoli",
+          "Jalgaon",
+          "Jalna",
+          "Kolhapur",
+          "Latur",
+          "Mumbai City",
+          "Mumbai Suburban",
+          "Nagpur",
+          "Nanded",
+          "Nandurbar",
+          "Nashik",
+          "Osmanabad",
+          "Palghar",
+          "Parbhani",
+          "Pune",
+          "Raigad",
+          "Ratnagiri",
+          "Sangli",
+          "Satara",
+          "Sindhudurg",
+          "Solapur",
+          "Thane",
+          "Wardha",
+          "Washim",
+          "Yavatmal"
+        ]
+      },
+      {
+        "state": "Manipur",
+        "districts": [
+          "Bishnupur",
+          "Churachandpur",
+          "Chandel",
+          "Imphal East",
+          "Imphal West",
+          "Jiribam",
+          "Kakching",
+          "Kamjong",
+          "Kangpokpi",
+          "Noney",
+          "Pherzawl",
+          "Senapati",
+          "Tamenglong",
+          "Tengnoupal",
+          "Thoubal",
+          "Ukhrul"
+        ]
+      },
+      {
+        "state": "Meghalaya",
+        "districts": [
+          "East Garo Hills",
+          "East Jaintia Hills",
+          "East Khasi Hills",
+          "North Garo Hills",
+          "Ri Bhoi",
+          "South Garo Hills",
+          "South West Garo Hills",
+          "South West Khasi Hills",
+          "West Garo Hills",
+          "West Jaintia Hills",
+          "West Khasi Hills"
+        ]
+      },
+      {
+        "state": "Mizoram",
+        "districts": [
+          "Aizawl",
+          "Champhai",
+          "Kolasib",
+          "Lawngtlai",
+          "Lunglei",
+          "Mamit",
+          "Saiha",
+          "Serchhip"
+        ]
+      },
+      {
+        "state": "Nagaland",
+        "districts": [
+          "Dimapur",
+          "Kiphire",
+          "Kohima",
+          "Longleng",
+          "Mokokchung",
+          "Mon",
+          "Peren",
+          "Phek",
+          "Tuensang",
+          "Wokha",
+          "Zunheboto"
+        ]
+      },
+      {
+        "state": "Odisha",
+        "districts": [
+          "Angul",
+          "Balangir",
+          "Balasore",
+          "Bargarh",
+          "Bhadrak",
+          "Boudh",
+          "Cuttack",
+          "Debagarh",
+          "Dhenkanal",
+          "Gajapati",
+          "Ganjam",
+          "Jagatsinghpur",
+          "Jajpur",
+          "Jharsuguda",
+          "Kalahandi",
+          "Kandhamal",
+          "Kendrapara",
+          "Kendujhar",
+          "Khordha",
+          "Koraput",
+          "Malkangiri",
+          "Mayurbhanj",
+          "Nabarangpur",
+          "Nuapada",
+          "Puri",
+          "Rayagada",
+          "Sambalpur",
+          "Sonepur",
+          "Sundargarh"
+        ]
+      },
+      {
+        "state": "Uttar Pradesh",
+        "districts": [
+          "Agra",
+          "Aligarh",
+          "Ambedkar Nagar",
+          "Amethi",
+          "Amroha",
+          "Auraiya",
+          "Ayodhya",
+          "Azamgarh",
+          "Baghpat",
+          "Bahraich",
+          "Ballia",
+          "Balrampur",
+          "Banda",
+          "Barabanki",
+          "Bareilly",
+          "Basti",
+          "Bhadohi",
+          "Bijnor",
+          "Budaun",
+          "Bulandshahr",
+          "Chandauli",
+          "Chitrakoot",
+          "Deoria",
+          "Etah",
+          "Etawah",
+          "Farrukhabad",
+          "Fatehpur",
+          "Firozabad",
+          "Gautam Buddha Nagar",
+          "Ghaziabad",
+          "Ghazipur",
+          "Gonda",
+          "Gorakhpur",
+          "Hamirpur",
+          "Hapur",
+          "Hardoi",
+          "Hathras",
+          "Jalaun",
+          "Jaunpur",
+          "Jhansi",
+          "Kannauj",
+          "Kanpur Dehat",
+          "Kanpur Nagar",
+          "Kasganj",
+          "Kaushambi",
+          "Kushinagar",
+          "Lakhimpur Kheri",
+          "Lalitpur",
+          "Lucknow",
+          "Maharajganj",
+          "Mahoba",
+          "Mainpuri",
+          "Mathura",
+          "Mau",
+          "Meerut",
+          "Mirzapur",
+          "Moradabad",
+          "Muzaffarnagar",
+          "Pilibhit",
+          "Pratapgarh",
+          "Raebareli",
+          "Rampur",
+          "Saharanpur",
+          "Sambhal",
+          "Sant Kabir Nagar",
+          "Shahjahanpur",
+          "Shamli",
+          "Shravasti",
+          "Siddharthnagar",
+          "Sitapur",
+          "Sonbhadra",
+          "Sultanpur",
+          "Unnao",
+          "Varanasi"
+        ]
+      },
+      {
+        "state": "Uttarakhand",
+        "districts": [
+          "Almora",
+          "Bageshwar",
+          "Chamoli",
+          "Champawat",
+          "Dehradun",
+          "Haridwar",
+          "Nainital",
+          "Pauri Garhwal",
+          "Pithoragarh",
+          "Rudraprayag",
+          "Tehri Garhwal",
+          "Udham Singh Nagar",
+          "Uttarkashi"
+        ]
+      },
+      {
+        "state": "West Bengal",
+        "districts": [
+          "Alipurduar",
+          "Bankura",
+          "Birbhum",
+          "Cooch Behar",
+          "Dakshin Dinajpur",
+          "Darjeeling",
+          "Hooghly",
+          "Howrah",
+          "Jalpaiguri",
+          "Jhargram",
+          "Kalimpong",
+          "Kolkata",
+          "Malda",
+          "Murshidabad",
+          "Nadia",
+          "North 24 Parganas",
+          "Paschim Bardhaman",
+          "Paschim Medinipur",
+          "Purba Bardhaman",
+          "Purba Medinipur",
+          "Purulia",
+          "South 24 Parganas",
+          "Uttar Dinajpur"
+        ]
+      }
+    ]
+  }
+]

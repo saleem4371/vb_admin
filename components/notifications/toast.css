@@ -1,0 +1,100 @@
+/* Container */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Toast Card */
+.toast {
+  width: 340px;
+  background: rgba(20, 20, 20, 0.95);
+  color: #fff;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  animation: slideIn 0.35s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+
+/* Header */
+.toast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.03);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Close Button */
+.toast-header button {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.toast-header button:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Body */
+.toast-body {
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e5e5e5;
+}
+
+/* Progress Bar */
+.toast-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.toast-progress div {
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  transition: width 0.05s linear;
+}
+
+/* Types (optional) */
+.toast.success {
+  border-left: 4px solid #22c55e;
+}
+
+.toast.error {
+  border-left: 4px solid #ef4444;
+}
+
+.toast.warning {
+  border-left: 4px solid #facc15;
+}
+
+.toast.info {
+  border-left: 4px solid #3b82f6;
+}
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(120%) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}

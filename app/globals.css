@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-[#f8f9fa] text-gray-700;
+  font-family: ui-sans-serif, system-ui;
+}
+
+.soft-card {
+  @apply bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.05)];
+}
+
+.soft-border {
+  @apply border border-gray-200;
+}
+
+.clip-rzp {
+  clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
+}
