@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import IntegrationModal from "@/app/settings/third_party_application/modal/IntegrationModal";
+//import IntegrationModal from "@/app/settings/third_party_application/modal/IntegrationModal";
 import { CreditCard, MessageSquare, ShieldCheck, Cloud } from "lucide-react";
 
 export default function IntegrationsPage() {
@@ -24,11 +24,11 @@ export default function IntegrationsPage() {
         Integrations & Gateways
       </h1>
 
-      <IntegrationModal
+      {/* <IntegrationModal
         isOpen={!!active}
         onClose={() => setActive(null)}
         title={active}
-      />
+      /> */}
 
       <div className="grid md:grid-cols-3 gap-2">
 
