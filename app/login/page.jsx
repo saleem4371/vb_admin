@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import useDataStore from "@/store/useDataStore"; //store
-import { connectSocket } from "@/lib/socket";
+// import { connectSocket } from "@/lib/socket";
 
 export default function LoginPage() {
   const setData = useDataStore((state) => state.setData);
@@ -112,7 +112,7 @@ export default function LoginPage() {
       toast.success("Login successful 🎉");
        localStorage.setItem("token", data.token);
        localStorage.setItem("user_id",data.user.id);
-       connectSocket(data.user.id);// socket
+       // connectSocket(data.user.id);// socket
        localStorage.setItem("auth", "true");
        window.location.href = "/dashboard";
 
