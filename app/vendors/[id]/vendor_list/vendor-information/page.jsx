@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import SettlementHeader from "@/components/vendor_details/SettlementHeader";
@@ -10,9 +12,11 @@ import { useState, useEffect } from "react";
 
 import { useParams } from "next/navigation";
 
+
 export default function VendorInformation() {
   const [Loading, setLoading] = useState(false);
   const [users, setUser] = useState("");
+  const [subscription, setSubscription] = useState("");
 
   const params = useParams();
   const id = params.id;
@@ -26,63 +30,51 @@ export default function VendorInformation() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: id }),
-        },
+          body: JSON.stringify({ id }),
+        }
       );
 
       const data = await res.json();
+
       setUser(data?.vendors[0]);
+      setSubscription(data?.subscription);
+
+     // setUser(data?.vendors?.[0] || null);
+     // setSubscription(Array.isArray(data?.subscription) ? data.subscription : []);
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
-    fetchData();
+    if (id) fetchData();
   }, [id]);
 
   return (
-    <div className="p-1 bg-gray-50 min-h-screen">
-      <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-8 space-y-6">
-          <SettlementHeader
-            id={id}
-            users={users}
-            refreshVendor={fetchData}
-            className="mb-1"
-          />
-          <SettlementDetails
-            id={id}
-            users={users}
-            refreshVendor={fetchData}
-            className="mb-1"
-          />
-          <AmountBreakdown
-            id={id}
-            users={users}
-            refreshVendor={fetchData}
-            className="mb-1"
-          />
+    <div className="p-2 bg-gray-50 min-h-screen">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
+        
+        {/* LEFT SIDE */}
+        <div className="lg:col-span-8 space-y-4">
+          <SettlementHeader id={id} users={users} refreshVendor={fetchData} />
+          <SettlementDetails id={id} users={users} refreshVendor={fetchData} />
+          <AmountBreakdown id={id} users={users} refreshVendor={fetchData} />
         </div>
 
-        <div className="col-span-4 h-full">
-          <Timeline
-            id={id}
-            users={users}
-            refreshVendor={fetchData}
-            className="mb-1"
-          />
+        {/* RIGHT SIDE */}
+        <div className="lg:col-span-4">
+          <Timeline id={id} users={users} refreshVendor={fetchData} />
         </div>
-        <div className="col-span-12">
-          <GrossSettlementsTable
-            id={id}
-            users={users}
-            refreshVendor={fetchData}
-            className="mb-1"
-          />
+
+        {/* TABLE FULL WIDTH */}
+        <div className="col-span-1 lg:col-span-12">
+          <GrossSettlementsTable subscription={subscription} />
         </div>
       </div>
     </div>
   );
 }
+
+
