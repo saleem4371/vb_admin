@@ -1,42 +1,51 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { Check, CalendarCheck, Bookmark } from "lucide-react";
+import { motion , AnimatePresence} from "framer-motion";
+import { Check, CalendarCheck, Bookmark ,CheckCircle, XCircle  } from "lucide-react";
 
 export default function VendorSubscription({ users, refreshVendor, toast }) {
   const [loading, setLoading] = useState(false);
-  const [activePlanId, setActivePlanId] = useState(null);
-  const [showAllPlans, setShowAllPlans] = useState(false);
   const [selectedMonthly, setSelectedMonthly] = useState(null);
   const [selectedYearly, setSelectedYearly] = useState(null);
   const [selectedBilling, setSelectedBilling] = useState([]);
   const [plans, setPlans] = useState([]);
+  const [planselected, setPlanselected] = useState([]);
 
-  const loadCalled = useRef(false); // prevent multiple calls
+  const [showModal, setShowModal] = useState(false);
 
-  // const plans = [
-  //   { id: 1, name: "Plan 1", price: "₹999 / month", method: 1 },
-  //   { id: 2, name: "Plan 2", price: "₹1499 / month", method: 1, popular: true },
-  //   { id: 3, name: "Plan 3", price: "₹1999 / month", method: 1 },
-  //   { id: 4, name: "Plan 4", price: "₹2999 / year", method: 2 },
-  //   { id: 5, name: "Plan 5", price: "₹3999 / year", method: 2, popular: true },
-  //   { id: 6, name: "Plan 6", price: "₹5999 / year", method: 2 },
-  // ];
+  const loadCalled = useRef(false);
 
   const bookingTypes = [
     { id: "1", name: "Booking", icon: CalendarCheck, desc: "Direct confirmed booking" },
     { id: "2", name: "Reserve", icon: Bookmark, desc: "Temporarily hold the venue" },
   ];
+// ====================Subscribed Plan =================//
+ const plan = {
+    name: "Standard Plan",
+    price: "₹704",
+    validTill: "31 Dec 2026",
+  };
 
-  // ================= LOAD PLANS SETTINGS ONCE =================
+  const handleCancel = async () => {
+    setLoading(true);
+
+    // 🔥 Call API here
+    setTimeout(() => {
+      setLoading(false);
+      setShowModal(false);
+      alert("Subscription Cancelled");
+    }, 1500);
+  };
+
+  // ================= LOAD ONCE =================
   useEffect(() => {
     if (!users || loadCalled.current) return;
 
-    loadCalled.current = true; // mark as already called
+    loadCalled.current = true;
 
-    if (users.active_plan_id) setActivePlanId(users.active_plan_id);
-
+    // billing
     const billings =
       typeof users?.activated_billings === "string"
         ? JSON.parse(users.activated_billings)
@@ -44,65 +53,74 @@ export default function VendorSubscription({ users, refreshVendor, toast }) {
 
     if (billings) setSelectedBilling(billings);
 
+    // existing plans (if stored like [1,2])
+    if (users?.plans) {
+      const plansArr =
+        typeof users.plans === "string"
+          ? JSON.parse(users.plans)
+          : users.plans;
+
+      setSelectedMonthly(plansArr[0] || null);
+      setSelectedYearly(plansArr[1] || null);
+    }
+
     load_plans_setting(users.user_id);
   }, [users]);
 
-// ================= LOAD PLANS SETTINGS =================
-const load_plans_setting = async (userId) => {
-  if (!userId) return;
-  setLoading(true);
-  try {
-    const res = await fetch(
-      "https://websockettest.venuebook.in:5000/admin/load_plans_setting",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: userId }),
-      }
-    );
+  // ================= LOAD PLANS =================
+  const load_plans_setting = async (userId) => {
+    if (!userId) return;
 
-    if (!res.ok) throw new Error("Failed to load plan settings");
-
-    const data = await res.json();
-
-    // ✅ Make sure API returns an array of plans
-    const plans = data.plans_suggested || [];
-    setPlans(plans);
-
-    // ✅ Optionally set activeMonthly/yearly based on API data
-    if (users.active_plan_id) setActivePlanId(users.active_plan_id);
-    if (plans.length > 0) {
-      const monthly = plans.find((p) => p.method === 1);
-      const yearly = plans.find((p) => p.method === 2);
-      if (monthly) setSelectedMonthly(monthly.id);
-      if (yearly) setSelectedYearly(yearly.id);
-    }
-  } catch (err) {
-    console.error(err);
-    toast?.error("Failed to load plan settings");
-  } finally {
-    setLoading(false);
-  }
-};
-
-  
-
-  const selectPlan = async (planId) => {
     setLoading(true);
     try {
-      const res = await fetch("https://websockettest.venuebook.in:5000/admin/update_plan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: users.user_id, plan_id: planId }),
-      });
+      const res = await fetch(
+        "https://websockettest.venuebook.in:5000/admin/load_plans_setting",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id: userId }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed");
+
+      const data = await res.json();
+      setPlans(data.plans_suggested || []);
+      setPlanselected(data.plan_activated || []);
+    } catch (err) {
+      console.error(err);
+      toast?.error("Failed to load plan settings");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ================= SAVE PLANS =================
+  const selectPlan = async () => {
+    if (!selectedMonthly || !selectedYearly) {
+      toast?.error("Select both monthly & yearly plans");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(
+        "https://websockettest.venuebook.in:5000/admin/update_plan",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: users.user_id,
+            plans: [selectedMonthly, selectedYearly], // ✅ ARRAY
+          }),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
-      setActivePlanId(planId);
-      setShowAllPlans(false);
+      toast?.success("Plans updated successfully");
       refreshVendor && refreshVendor();
-      toast?.success("Plan updated successfully");
     } catch {
       toast?.error("Something went wrong");
     } finally {
@@ -110,22 +128,32 @@ const load_plans_setting = async (userId) => {
     }
   };
 
+  // ================= BILLING =================
   const toggleBilling = (id) => {
     setSelectedBilling((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((i) => i !== id)
+        : [...prev, id]
     );
   };
 
   const saveBilling = async () => {
     setLoading(true);
     try {
-      const res = await fetch("https://websockettest.venuebook.in:5000/admin/update_billing", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: users.user_id, selected: selectedBilling }),
-      });
+      const res = await fetch(
+        "https://websockettest.venuebook.in:5000/admin/update_billing",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: users.user_id,
+            selected: selectedBilling,
+          }),
+        }
+      );
 
-      if (!res.ok) throw new Error("Failed to save billing");
+      if (!res.ok) throw new Error();
+
       toast?.success("Booking settings saved");
       refreshVendor && refreshVendor();
     } catch {
@@ -135,29 +163,18 @@ const load_plans_setting = async (userId) => {
     }
   };
 
-  // ================= PLAN FILTERS =================
-   const hasActivePlan = !!activePlanId;
-  // const monthlyPlans = plans.filter((p) => p.plan_title === 1);
-  // const yearlyPlans = plans.filter((p) => p.plan_title === 2);
+  // ================= FILTER =================
+  const monthlyPlans = plans.filter((p) => Number(p.plan_title) === 1);
+  const yearlyPlans = plans.filter((p) => Number(p.plan_title) === 2);
 
-  const monthlyPlans = plans.filter((p) => p.plan_title === '1');
-const yearlyPlans = plans.filter((p) => p.plan_title === '2');
-console.log(plans)
-  const getVisiblePlans = (planList) => {
-    if (hasActivePlan && !showAllPlans) return planList.filter((p) => p.id === activePlanId);
-    return planList;
-  };
-
-  // ================= PLAN CARD =================
-  const PlanCard = ({ plan, isActive, isSelected, onSelect }) => (
+  // ================= CARD =================
+  const PlanCard = ({ plan, isSelected, onSelect }) => (
     <motion.div
       onClick={onSelect}
       whileHover={{ y: -3 }}
       className={`relative cursor-pointer rounded-lg border p-3 text-sm transition
       ${
-        isActive
-          ? "border-green-500 bg-green-50"
-          : isSelected
+        isSelected
           ? "border-blue-600 bg-blue-50"
           : "border-gray-200 bg-white hover:shadow-sm"
       }`}
@@ -171,90 +188,177 @@ console.log(plans)
       <div className="absolute top-2 right-2">
         <div
           className={`w-4 h-4 rounded-full border flex items-center justify-center
-          ${isSelected ? "bg-blue-600 border-blue-600" : "border-gray-300"}`}
+          ${
+            isSelected
+              ? "bg-blue-600 border-blue-600"
+              : "border-gray-300"
+          }`}
         >
           {isSelected && <Check size={10} className="text-white" />}
         </div>
       </div>
 
-      {isActive && (
-        <span className="text-[10px] bg-green-600 text-white px-2 py-0.5 rounded-full">
-          Active
-        </span>
-      )}
-
       <h3 className="font-medium mt-2">{plan.plan_name}</h3>
-      <p className="text-gray-500 text-xs mt-1">{plan.amounts}</p>
-
-      {!isActive && isSelected && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            selectPlan(plan.id);
-          }}
-          className="mt-3 w-full bg-blue-600 text-white py-1.5 rounded-md text-xs hover:bg-blue-700"
-        >
-          {hasActivePlan ? "Switch" : "Choose"}
-        </button>
-      )}
+      <p className="text-gray-500 text-xs mt-1">₹{plan.amounts}</p>
     </motion.div>
   );
 
-  // ================= JSX =================
+  // ================= UI =================
   return (
     <div className="space-y-10">
       {/* PLANS */}
       <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">Subscription Plans</h2>
-          {hasActivePlan && !showAllPlans && (
-            <button
-              onClick={() => setShowAllPlans(true)}
-              className="text-sm text-blue-600 hover:underline"
+        {planselected.length <= 0 && (
+           <>
+        <h2 className="text-xl font-semibold mb-4">
+          Subscription Plans
+        </h2>
+
+ 
+    <p className="text-xs text-gray-500 mb-4">
+      Select one monthly and one yearly plan
+    </p>
+
+    {/* MONTHLY */}
+    <div className="mb-6">
+      <h4 className="text-sm font-semibold text-gray-600 mb-3">
+        Monthly Plans
+      </h4>
+
+      <div className="grid md:grid-cols-3 gap-4">
+        {monthlyPlans.map((plan) => (
+          <PlanCard
+            key={plan.id}
+            plan={plan}
+            isSelected={selectedMonthly === plan.id}
+            onSelect={() => setSelectedMonthly(plan.id)}
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* YEARLY */}
+    <div className="mb-6">
+      <h4 className="text-sm font-semibold text-gray-600 mb-3">
+        Yearly Plans
+      </h4>
+
+      <div className="grid md:grid-cols-3 gap-4">
+        {yearlyPlans.map((plan) => (
+          <PlanCard
+            key={plan.id}
+            plan={plan}
+            isSelected={selectedYearly === plan.id}
+            onSelect={() => setSelectedYearly(plan.id)}
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* BUTTON */}
+    <button
+      disabled={!selectedMonthly || !selectedYearly || loading}
+      onClick={selectPlan}
+      className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
+    >
+      Save Plans
+    </button>
+  </>
+)}
+ {/* BUTTON */}
+{planselected.length > 0 && (
+<div>
+  <div className="">
+      {/* Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className=" border border-gray-200 shadow-lg p-6 bg-white "
+      >
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-4  border-b border-gray-200">
+          <CheckCircle className="text-green-500" />
+          <h2 className="text-lg font-semibold text-gray-800">
+            Subscribed Plan
+          </h2>
+        </div>
+
+        {/* Plan Info */}
+        <div className="space-y-2">
+          <h3 className="text-xl font-bold text-gray-900">{planselected[0].subscription_code}</h3>
+          <p className="text-gray-500">{planselected[0].end_date}</p>
+          <p className="text-sm text-gray-400">
+            Valid till: <span className="font-medium">{planselected[0].end_date}</span>
+          </p>
+        </div>
+
+        {/* Cancel Button */}
+        <button
+          onClick={() => setShowModal(true)}
+          className="mt-6 w-full bg-red-500 text-white cursor-pointer hover:bg-red-400 transition py-2.5 rounded-lg font-medium"
+        >
+          Cancel Subscription
+        </button>
+      </motion.div>
+
+      {/* 🔥 Confirm Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              className="bg-white rounded-xl p-6 w-[90%] max-w-sm shadow-xl"
             >
-              Change Plan
-            </button>
-          )}
-        </div>
+              <div className="flex items-center gap-2 mb-3">
+                <XCircle className="text-red-500" />
+                <h3 className="font-semibold text-gray-800">
+                  Confirm Cancellation
+                </h3>
+              </div>
 
-        {/* MONTHLY */}
-        <div className="mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-3">Monthly Plans</h4>
-          <div className="grid md:grid-cols-3 gap-4">
-            {getVisiblePlans(monthlyPlans).map((plan) => (
-              <PlanCard
-                key={plan.id}
-                plan={plan}
-                isActive={plan.id === activePlanId}
-                isSelected={selectedMonthly === plan.id}
-                onSelect={() => setSelectedMonthly(plan.id)}
-              />
-            ))}
-          </div>
-        </div>
+              <p className="text-gray-500 text-sm mb-5">
+                Are you sure you want to cancel your subscription? This action
+                cannot be undone.
+              </p>
 
-        {/* YEARLY */}
-        <div>
-          <h4 className="text-sm font-semibold text-gray-600 mb-3">
-            Yearly Plans (Save more 🎉)
-          </h4>
-          <div className="grid md:grid-cols-3 gap-4">
-            {getVisiblePlans(yearlyPlans).map((plan) => (
-              <PlanCard
-                key={plan.id}
-                plan={plan}
-                isActive={plan.id === activePlanId}
-                isSelected={selectedYearly === plan.id}
-                onSelect={() => setSelectedYearly(plan.id)}
-              />
-            ))}
-          </div>
-        </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 border border-gray-200 py-2 rounded-lg hover:bg-gray-50"
+                >
+                  Keep Plan
+                </button>
+
+                <button
+                  onClick={handleCancel}
+                  disabled={loading}
+                  className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
+                >
+                  {loading ? "Cancelling..." : "Yes, Cancel"}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  </div>
+)}
       </div>
 
-      {/* BOOKING SETTINGS */}
+      {/* BOOKING */}
       <div>
-        <h3 className="text-xl font-semibold mb-4">Booking Settings</h3>
+        <h3 className="text-xl font-semibold mb-4">
+          Booking Settings
+        </h3>
+
         <div className="grid sm:grid-cols-2 gap-4">
           {bookingTypes.map((item) => {
             const Icon = item.icon;
@@ -266,17 +370,34 @@ console.log(plans)
                 onClick={() => toggleBilling(item.id)}
                 whileTap={{ scale: 0.97 }}
                 className={`cursor-pointer rounded-xl border p-4 transition
-                ${active ? "border-blue-600 bg-blue-50" : "border-gray-200"}`}
+                ${
+                  active
+                    ? "border-blue-600 bg-blue-50"
+                    : "border-gray-200"
+                }`}
               >
                 <div className="flex gap-3 items-center">
-                  <div className={`p-2 rounded-md ${active ? "bg-blue-600 text-white" : "bg-gray-100"}`}>
+                  <div
+                    className={`p-2 rounded-md
+                    ${
+                      active
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-100"
+                    }`}
+                  >
                     <Icon size={18} />
                   </div>
+
                   <div>
                     <p className="font-medium">{item.name}</p>
-                    <p className="text-xs text-gray-500">{item.desc}</p>
+                    <p className="text-xs text-gray-500">
+                      {item.desc}
+                    </p>
                   </div>
-                  {active && <Check className="ml-auto text-blue-600" />}
+
+                  {active && (
+                    <Check className="ml-auto text-blue-600" />
+                  )}
                 </div>
               </motion.div>
             );
