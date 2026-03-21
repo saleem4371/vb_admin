@@ -128,7 +128,7 @@ refreshVendor();
 
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-1 text-blue-600 text-sm"
+            className="cursor-pointer flex items-center gap-1 text-blue-600 text-sm"
           >
             <Pencil size={16} />
             Edit
@@ -233,14 +233,14 @@ refreshVendor();
               <div className="flex justify-end gap-3 mt-6">
                 <button
                   onClick={() => setOpen(false)}
-                  className="px-4 py-2 border border-gray-200 rounded-lg"
+                  className="cursor-pointer px-4 py-2 border border-gray-200 rounded-lg"
                 >
                   Cancel
                 </button>
 
                 <button
                   onClick={verifySave}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                  className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg"
                 >
                   Save
                 </button>
@@ -276,14 +276,14 @@ refreshVendor();
               <div className="flex justify-center gap-3 mt-6">
                 <button
                   onClick={() => setConfirm(false)}
-                  className="px-4 py-2 border border-gray-200 rounded-lg"
+                  className="cursor-pointer px-4 py-2 border border-gray-200 rounded-lg"
                 >
                   Cancel
                 </button>
 
                 <button
                   onClick={save}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2"
+                  className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2"
                 >
                   {loading && (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
