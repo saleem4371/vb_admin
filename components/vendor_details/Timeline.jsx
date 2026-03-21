@@ -1,9 +1,8 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion , AnimatePresence} from "framer-motion";
-import { Check, CalendarCheck, Bookmark ,CheckCircle, XCircle  } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, CalendarCheck, Bookmark, Loader2 } from "lucide-react";
 
 export default function VendorSubscription({ users, refreshVendor, toast }) {
   const [loading, setLoading] = useState(false);
@@ -14,6 +13,7 @@ export default function VendorSubscription({ users, refreshVendor, toast }) {
   const [planselected, setPlanselected] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
+  const [confirmType, setConfirmType] = useState(null);
 
   const loadCalled = useRef(false);
 
@@ -21,31 +21,11 @@ export default function VendorSubscription({ users, refreshVendor, toast }) {
     { id: "1", name: "Booking", icon: CalendarCheck, desc: "Direct confirmed booking" },
     { id: "2", name: "Reserve", icon: Bookmark, desc: "Temporarily hold the venue" },
   ];
-// ====================Subscribed Plan =================//
- const plan = {
-    name: "Standard Plan",
-    price: "₹704",
-    validTill: "31 Dec 2026",
-  };
 
-  const handleCancel = async () => {
-    setLoading(true);
-
-    // 🔥 Call API here
-    setTimeout(() => {
-      setLoading(false);
-      setShowModal(false);
-      alert("Subscription Cancelled");
-    }, 1500);
-  };
-
-  // ================= LOAD ONCE =================
   useEffect(() => {
     if (!users || loadCalled.current) return;
-
     loadCalled.current = true;
 
-    // billing
     const billings =
       typeof users?.activated_billings === "string"
         ? JSON.parse(users.activated_billings)
@@ -53,7 +33,6 @@ export default function VendorSubscription({ users, refreshVendor, toast }) {
 
     if (billings) setSelectedBilling(billings);
 
-    // existing plans (if stored like [1,2])
     if (users?.plans) {
       const plansArr =
         typeof users.plans === "string"
@@ -64,353 +43,319 @@ export default function VendorSubscription({ users, refreshVendor, toast }) {
       setSelectedYearly(plansArr[1] || null);
     }
 
-    load_plans_setting(users.user_id);
+    loadPlans(users.user_id);
   }, [users]);
 
-  // ================= LOAD PLANS =================
-  const load_plans_setting = async (userId) => {
-    if (!userId) return;
-
+  const loadPlans = async (userId) => {
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://websockettest.venuebook.in:5000/admin/load_plans_setting",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: userId }),
-        }
-      );
-
-      if (!res.ok) throw new Error("Failed");
+      const res = await fetch("https://websockettest.venuebook.in:5000/admin/load_plans_setting", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId }),
+      });
 
       const data = await res.json();
       setPlans(data.plans_suggested || []);
       setPlanselected(data.plan_activated || []);
-    } catch (err) {
-      console.error(err);
-      toast?.error("Failed to load plan settings");
+    } catch {
+      toast?.error("Failed to load plans");
     } finally {
       setLoading(false);
     }
   };
 
-  // ================= SAVE PLANS =================
   const selectPlan = async () => {
     if (!selectedMonthly || !selectedYearly) {
-      toast?.error("Select both monthly & yearly plans");
+      toast?.error("Select both plans");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://websockettest.venuebook.in:5000/admin/update_plan",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: users.user_id,
-            plans: [selectedMonthly, selectedYearly], // ✅ ARRAY
-          }),
-        }
-      );
+      await fetch("https://websockettest.venuebook.in:5000/admin/update_plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: users.user_id,
+          plans: [selectedMonthly, selectedYearly],
+        }),
+      });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-
-      toast?.success("Plans updated successfully");
+      toast?.success("Plan updated successfully");
       refreshVendor && refreshVendor();
     } catch {
-      toast?.error("Something went wrong");
+      toast?.error("Failed to update plan");
     } finally {
       setLoading(false);
     }
-  };
-
-  // ================= BILLING =================
-  const toggleBilling = (id) => {
-    setSelectedBilling((prev) =>
-      prev.includes(id)
-        ? prev.filter((i) => i !== id)
-        : [...prev, id]
-    );
   };
 
   const saveBilling = async () => {
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://websockettest.venuebook.in:5000/admin/update_billing",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: users.user_id,
-            selected: selectedBilling,
-          }),
-        }
-      );
-
-      if (!res.ok) throw new Error();
+      await fetch("https://websockettest.venuebook.in:5000/admin/update_billing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: users.user_id,
+          selected: selectedBilling,
+        }),
+      });
 
       toast?.success("Booking settings saved");
-      refreshVendor && refreshVendor();
     } catch {
-      toast?.error("Something went wrong");
+      toast?.error("Failed to save booking");
     } finally {
       setLoading(false);
     }
   };
 
-  // ================= FILTER =================
+  const toggleBilling = (id) => {
+    setSelectedBilling((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  // ✅ MAIN FIX: API CONNECTED
+  const handleConfirm = async () => {
+    setLoading(true);
+
+    try {
+      if (confirmType === "cancel") {
+        const res = await fetch(
+          "https://websockettest.venuebook.in:5000/admin/cancel_subscription",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id: users.user_id }),
+          }
+        );
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
+        toast?.success("Subscription cancelled successfully");
+
+        setPlanselected([]);
+        setSelectedMonthly(null);
+        setSelectedYearly(null);
+
+        refreshVendor && refreshVendor();
+      }
+
+      if (confirmType === "clear") {
+        const res = await fetch(
+          "https://websockettest.venuebook.in:5000/admin/clear_booking",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id: users.user_id }),
+          }
+        );
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
+        setSelectedBilling([]);
+        toast?.success("Booking data cleared successfully");
+      }
+    } catch (err) {
+      toast?.error(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+      setShowModal(false);
+    }
+  };
+
   const monthlyPlans = plans.filter((p) => Number(p.plan_title) === 1);
   const yearlyPlans = plans.filter((p) => Number(p.plan_title) === 2);
 
-  // ================= CARD =================
-  const PlanCard = ({ plan, isSelected, onSelect }) => (
+  const PlanCard = ({ plan, selected, onClick }) => (
     <motion.div
-      onClick={onSelect}
-      whileHover={{ y: -3 }}
-      className={`relative cursor-pointer rounded-lg border p-3 text-sm transition
-      ${
-        isSelected
-          ? "border-blue-600 bg-blue-50"
-          : "border-gray-200 bg-white hover:shadow-sm"
-      }`}
+      onClick={onClick}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className={`p-4 rounded-lg border cursor-pointer transition
+      ${selected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"}`}
     >
-      {plan.recomended == 1 && (
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 text-[8px] bg-blue-600 text-white px-2 py-0.5 rounded-full">
-          Most Popular
+      <div className="flex justify-between items-center">
+        <div>
+          <p className="font-medium text-gray-800">{plan.plan_name}</p>
+          <p className="text-sm text-gray-500">₹{plan.amounts}</p>
         </div>
-      )}
-
-      <div className="absolute top-2 right-2">
-        <div
-          className={`w-4 h-4 rounded-full border flex items-center justify-center
-          ${
-            isSelected
-              ? "bg-blue-600 border-blue-600"
-              : "border-gray-300"
-          }`}
-        >
-          {isSelected && <Check size={10} className="text-white" />}
-        </div>
+        {selected && <Check className="text-blue-600" />}
       </div>
-
-      <h3 className="font-medium mt-2">{plan.plan_name}</h3>
-      <p className="text-gray-500 text-xs mt-1">₹{plan.amounts}</p>
     </motion.div>
   );
 
-  // ================= UI =================
   return (
-    <div className="space-y-10">
-      {/* PLANS */}
-      <div>
-        {planselected.length <= 0 && (
-           <>
-        <h2 className="text-xl font-semibold mb-4">
-          Subscription Plans
-        </h2>
+    <div className="max-w-5xl mx-auto space-y-6">
 
- 
-    <p className="text-xs text-gray-500 mb-4">
-      Select one monthly and one yearly plan
-    </p>
+      {/* SUBSCRIPTION */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h2 className="text-lg font-semibold mb-4">Subscription Plans</h2>
 
-    {/* MONTHLY */}
-    <div className="mb-6">
-      <h4 className="text-sm font-semibold text-gray-600 mb-3">
-        Monthly Plans
-      </h4>
+        {planselected.length === 0 ? (
+          <>
+            <div className="grid md:grid-cols-2 gap-6">
 
-      <div className="grid md:grid-cols-3 gap-4">
-        {monthlyPlans.map((plan) => (
-          <PlanCard
-            key={plan.id}
-            plan={plan}
-            isSelected={selectedMonthly === plan.id}
-            onSelect={() => setSelectedMonthly(plan.id)}
-          />
-        ))}
-      </div>
-    </div>
+              <div className="space-y-3 max-h-[180px] overflow-y-auto">
+                <p className="text-xs text-gray-500">MONTHLY</p>
+                {monthlyPlans.map((p) => (
+                  <PlanCard
+                    key={p.id}
+                    plan={p}
+                    selected={selectedMonthly === p.id}
+                    onClick={() => setSelectedMonthly(p.id)}
+                  />
+                ))}
+              </div>
 
-    {/* YEARLY */}
-    <div className="mb-6">
-      <h4 className="text-sm font-semibold text-gray-600 mb-3">
-        Yearly Plans
-      </h4>
+              <div className="space-y-3 max-h-[180px] overflow-y-auto">
+                <p className="text-xs text-gray-500">YEARLY</p>
+                {yearlyPlans.map((p) => (
+                  <PlanCard
+                    key={p.id}
+                    plan={p}
+                    selected={selectedYearly === p.id}
+                    onClick={() => setSelectedYearly(p.id)}
+                  />
+                ))}
+              </div>
+            </div>
 
-      <div className="grid md:grid-cols-3 gap-4">
-        {yearlyPlans.map((plan) => (
-          <PlanCard
-            key={plan.id}
-            plan={plan}
-            isSelected={selectedYearly === plan.id}
-            onSelect={() => setSelectedYearly(plan.id)}
-          />
-        ))}
-      </div>
-    </div>
-
-    {/* BUTTON */}
-    <button
-      disabled={!selectedMonthly || !selectedYearly || loading}
-      onClick={selectPlan}
-      className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
-    >
-      Save Plans
-    </button>
-  </>
-)}
- {/* BUTTON */}
-{planselected.length > 0 && (
-<div>
-  <div className="">
-      {/* Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        className=" border border-gray-200 shadow-lg p-6 bg-white "
-      >
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-4  border-b border-gray-200">
-          <CheckCircle className="text-green-500" />
-          <h2 className="text-lg font-semibold text-gray-800">
-            Subscribed Plan
-          </h2>
-        </div>
-
-        {/* Plan Info */}
-        <div className="space-y-2">
-          <h3 className="text-xl font-bold text-gray-900">{planselected[0].subscription_code}</h3>
-          <p className="text-gray-500">{planselected[0].end_date}</p>
-          <p className="text-sm text-gray-400">
-            Valid till: <span className="font-medium">{planselected[0].end_date}</span>
-          </p>
-        </div>
-
-        {/* Cancel Button */}
-        <button
-          onClick={() => setShowModal(true)}
-          className="mt-6 w-full bg-red-500 text-white cursor-pointer hover:bg-red-400 transition py-2.5 rounded-lg font-medium"
-        >
-          Cancel Subscription
-        </button>
-      </motion.div>
-
-      {/* 🔥 Confirm Modal */}
-      <AnimatePresence>
-        {showModal && (
-          <motion.div
-            className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: 20 }}
-              className="bg-white rounded-xl p-6 w-[90%] max-w-sm shadow-xl"
+            <button
+              onClick={selectPlan}
+              disabled={loading}
+              className="cursor-pointer mt-6 w-full bg-blue-600 text-white py-2.5 rounded-lg flex items-center justify-center gap-2"
             >
-              <div className="flex items-center gap-2 mb-3">
-                <XCircle className="text-red-500" />
-                <h3 className="font-semibold text-gray-800">
-                  Confirm Cancellation
-                </h3>
-              </div>
+              {loading && <Loader2 className="animate-spin" size={16} />}
+              {loading ? "Saving..." : "Save Plan"}
+            </button>
+          </>
+        ) : (
+          <div className="bg-gray-50 border border-gray-200  rounded-lg p-4">
+            <p className="font-semibold text-gray-800">
+              {planselected[0].subscription_code}
+            </p>
+            <p className="text-sm text-gray-500">
+              Valid till {planselected[0].end_date}
+            </p>
 
-              <p className="text-gray-500 text-sm mb-5">
-                Are you sure you want to cancel your subscription? This action
-                cannot be undone.
-              </p>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="flex-1 border border-gray-200 py-2 rounded-lg hover:bg-gray-50"
-                >
-                  Keep Plan
-                </button>
-
-                <button
-                  onClick={handleCancel}
-                  disabled={loading}
-                  className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
-                >
-                  {loading ? "Cancelling..." : "Yes, Cancel"}
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
+            <button
+              onClick={() => {
+                setConfirmType("cancel");
+                setShowModal(true);
+              }}
+              className="cursor-pointer mt-4 w-full border border-red-500 text-red-600 py-2.5 rounded-lg hover:bg-red-50 transition"
+            >
+              Cancel Subscription
+            </button>
+          </div>
         )}
-      </AnimatePresence>
-    </div>
-  </div>
-)}
       </div>
 
       {/* BOOKING */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4">
-          Booking Settings
-        </h3>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h2 className="text-lg font-semibold mb-4">Booking Settings</h2>
 
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           {bookingTypes.map((item) => {
             const Icon = item.icon;
             const active = selectedBilling.includes(item.id);
 
             return (
-              <motion.div
+              <div
                 key={item.id}
                 onClick={() => toggleBilling(item.id)}
-                whileTap={{ scale: 0.97 }}
-                className={`cursor-pointer rounded-xl border p-4 transition
-                ${
-                  active
-                    ? "border-blue-600 bg-blue-50"
-                    : "border-gray-200"
-                }`}
+                className={`p-4 border rounded-lg flex items-center gap-3 cursor-pointer
+                ${active ? "border-blue-500 bg-blue-50" : "border-gray-300"}`}
               >
-                <div className="flex gap-3 items-center">
-                  <div
-                    className={`p-2 rounded-md
-                    ${
-                      active
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100"
-                    }`}
-                  >
-                    <Icon size={18} />
-                  </div>
-
-                  <div>
-                    <p className="font-medium">{item.name}</p>
-                    <p className="text-xs text-gray-500">
-                      {item.desc}
-                    </p>
-                  </div>
-
-                  {active && (
-                    <Check className="ml-auto text-blue-600" />
-                  )}
+                <Icon size={18} />
+                <div>
+                  <p className="font-medium">{item.name}</p>
+                  <p className="text-xs text-gray-500">{item.desc}</p>
                 </div>
-              </motion.div>
+                {active && <Check className="ml-auto text-blue-600" />}
+              </div>
             );
           })}
         </div>
 
         <button
           onClick={saveBilling}
-          className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+          className="cursor-pointer mt-6 bg-blue-600 text-white px-5 py-2 rounded-lg flex items-center gap-2"
         >
-          Save Booking Settings
+          {loading && <Loader2 className="animate-spin" size={16} />}
+          Save Settings
         </button>
       </div>
+
+      {/* DANGER ZONE */}
+      <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+        <h2 className="text-lg font-semibold text-red-600 mb-2">Danger Zone</h2>
+        <p className="text-sm text-gray-600 mb-4">
+          This action cannot be undone
+        </p>
+
+        <button
+          onClick={() => {
+            setConfirmType("clear");
+            setShowModal(true);
+          }}
+          className="cursor-pointer bg-red-600 text-white px-5 py-2 rounded-lg"
+        >
+          Reset Booking Data
+        </button>
+      </div>
+
+      {/* MODAL */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-white rounded-xl p-6 w-[90%] max-w-sm shadow-xl"
+            >
+              <h3 className="text-lg font-semibold mb-2">
+                {confirmType === "cancel"
+                  ? "Cancel Subscription"
+                  : "Reset Booking"}
+              </h3>
+
+              <p className="text-sm text-gray-500 mb-5">
+                {confirmType === "cancel"
+                  ? "You will lose access to your subscription benefits."
+                  : "All booking data will be removed permanently."}
+              </p>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="cursor-pointer flex-1 bg-gray-100 py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleConfirm}
+                  className="cursor-pointer flex-1 bg-red-600 text-white py-2 rounded-lg"
+                >
+                  Confirm
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
