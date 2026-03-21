@@ -10,6 +10,7 @@ export default function OrdersTable() {
 
   const [billingData, setBillingData] = useState([]);
   const [transactionData, setTransactionData] = useState([]);
+  const [payLaterTransactionData, setPayLaterTransactionData] = useState([]);
 
 
 
@@ -53,6 +54,7 @@ export default function OrdersTable() {
 
       const data = await res.json();
       setTransactionData(data.order_transaction || []);
+      setPayLaterTransactionData(data.pay_later_transaction || []);
     } catch (err) {
       toast.error("Failed to load order transactions");
     } finally {
@@ -73,7 +75,7 @@ export default function OrdersTable() {
   }, [activeTab]);
 
   const dataset =
-    activeTab === "orders" ? billingData : transactionData;
+    activeTab === "orders" ? billingData : (activeTab === "payments" ? transactionData:payLaterTransactionData);
 
   // FILTER
   const filteredData = useMemo(() => {
