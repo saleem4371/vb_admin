@@ -14,12 +14,14 @@ export default function Billing_Filter() {
     collected: 0,
     refunds: 0,
     disputes: 0,
+    pay_later: 0,
   });
 
   const [displayStats, setDisplayStats] = useState({
     collected: 0,
     refunds: 0,
     disputes: 0,
+    pay_later: 0,
   });
 
   const DURATIONS = [
@@ -68,6 +70,7 @@ export default function Billing_Filter() {
             (data.transaction_amount || 0),
           refunds: data.subscription_amount || 0,
           disputes: data.transaction_amount || 0,
+          pay_later: data.pay_later_amount || 0,
         });
       } catch (err) {
         console.error(err);
@@ -201,7 +204,7 @@ export default function Billing_Filter() {
             <div className="h-6 w-28 bg-gray-200 animate-pulse rounded mt-2"></div>
           ) : (
             <h3 className="text-xl font-semibold mt-1">
-              ₹{formatIndianNumber(displayStats.refunds)}
+              ₹{formatIndianNumber(displayStats.pay_later)}
             </h3>
           )}
         </div>
