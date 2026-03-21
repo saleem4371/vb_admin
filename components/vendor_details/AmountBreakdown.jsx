@@ -1,6 +1,6 @@
 "use client";
 
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, ShieldCheck, Landmark, Pencil, X } from "lucide-react";
 import toast from "react-hot-toast";
@@ -11,7 +11,7 @@ export default function VerificationDetails({ users }) {
   const [verifyType, setVerifyType] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  console.log(users.user_id)
+  console.log(users.user_id);
 
   const [kyc, setKyc] = useState({
     pan: "",
@@ -169,77 +169,65 @@ export default function VerificationDetails({ users }) {
     setLoading(false);
   };
 
-   useEffect(() => {
+  useEffect(() => {
+    if (!users?.user_id) return;
 
-  if (!users?.user_id) return;
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-  const fetchData = async () => {
+        const res = await fetch(
+          "https://websockettest.venuebook.in:5000/admin/kyc_details",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: users.user_id }),
+          },
+        );
 
-    try {
+        const data = await res.json();
 
-      setLoading(true);
-
-      const res = await fetch(
-        "https://websockettest.venuebook.in:5000/admin/kyc_details",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: users.user_id }),
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to fetch KYC");
         }
-      );
 
-      const data = await res.json();
+        if (data?.kyc?.length > 0) {
+          const kycData = data.kyc[0];
 
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to fetch KYC");
+          const gstPanDetails = kycData?.gst_pan_details
+            ? JSON.parse(kycData.gst_pan_details)
+            : {};
+
+          setKyc({
+            pan: kycData.pan_no,
+            gst: kycData.gst_no,
+            pan_name: gstPanDetails.legal_name || "",
+            address: gstPanDetails.address || "",
+            city: gstPanDetails.city || "",
+            state: gstPanDetails.state || "",
+            country: gstPanDetails.country || "",
+            pincode: gstPanDetails.pincode || "",
+            verified: gstPanDetails.verified || false,
+          });
+
+          setBank({
+            name: kycData.account_holder_name || "",
+            account: kycData.account_no || "",
+            bank: kycData.bank_name || "",
+            ifsc: kycData.ifsc_code || "",
+            verified: kycData.verified || false,
+          });
+        }
+      } catch (err) {
+        console.error("KYC fetch error:", err);
+        toast.error("Failed to load KYC details");
+      } finally {
+        setLoading(false);
       }
+    };
 
-       if (data?.kyc?.length > 0) {
-
-        const kycData = data.kyc[0];
-
-        const gstPanDetails = kycData?.gst_pan_details
-          ? JSON.parse(kycData.gst_pan_details)
-          : {};
-
-        setKyc({
-          pan: kycData.pan_no,
-          gst: kycData.gst_no,
-          pan_name: gstPanDetails.legal_name || "",
-          address: gstPanDetails.address || "",
-          city: gstPanDetails.city || "",
-          state: gstPanDetails.state || "",
-          country: gstPanDetails.country || "",
-          pincode: gstPanDetails.pincode || "",
-          verified: gstPanDetails.verified || false
-        });
-
-        setBank({
-          name: kycData.account_holder_name,
-          account: kycData.account_no,
-          bank: kycData.bank_name || "",
-          ifsc: kycData.ifsc_code || "",
-          verified: kycData.verified || false
-        });
-      }
-
-    } catch (err) {
-
-      console.error("KYC fetch error:", err);
-      toast.error("Failed to load KYC details");
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  };
-
-  fetchData();
-
-}, [users?.user_id]);
-
+    fetchData();
+  }, [users?.user_id]);
 
   return (
     <>
@@ -269,7 +257,7 @@ export default function VerificationDetails({ users }) {
 
               <button
                 onClick={() => setKycEdit(true)}
-                className="flex items-center gap-1 text-sm text-blue-600 cursor-pointer"
+                className="cursor-pointer  flex items-center gap-1 text-sm text-blue-600 cursor-pointer"
               >
                 <Pencil size={16} /> Edit
               </button>
@@ -294,17 +282,19 @@ export default function VerificationDetails({ users }) {
 
             <div className="flex justify-between">
               <span className="text-gray-500">Address</span>
-              <span className="font-medium text-right max-w-[180px]">
+              <span className="font-medium text-right max-w-[380px]">
                 {kyc.address}
               </span>
             </div>
           </div>
 
-          {!kyc.verified && (
+        
+
+          {kyc.pan?.trim() && !kyc.verified && (
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setVerifyType("kyc")}
-              className="mt-5 w-full bg-blue-600 text-white py-2 rounded-lg"
+              className="cursor-pointer mt-5 w-full bg-indigo-600 text-white py-2 rounded-lg"
             >
               Verify KYC
             </motion.button>
@@ -336,7 +326,7 @@ export default function VerificationDetails({ users }) {
 
               <button
                 onClick={() => setBankEdit(true)}
-                className="flex items-center gap-1 text-sm text-indigo-600 cursor-pointer"
+                className="cursor-pointer  flex items-center gap-1 text-sm text-indigo-600 cursor-pointer"
               >
                 <Pencil size={16} /> Edit
               </button>
@@ -364,11 +354,11 @@ export default function VerificationDetails({ users }) {
             </div>
           </div>
 
-          {!bank.verified && (
+          {bank.account?.trim() && !bank.verified && (
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setVerifyType("bank")}
-              className="mt-5 w-full bg-indigo-600 text-white py-2 rounded-lg"
+              className="cursor-pointer  mt-5 w-full bg-indigo-600 text-white py-2 rounded-lg"
             >
               Verify Bank
             </motion.button>
@@ -442,16 +432,16 @@ export default function VerificationDetails({ users }) {
               />
             </div>
             <button
-  onClick={saveKyc}
-  disabled={loading}
-  className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
->
-  {loading && (
-    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-  )}
+              onClick={saveKyc}
+              disabled={loading}
+              className="cursor-pointer  mt-4 w-full bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
+            >
+              {loading && (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              )}
 
-  {loading ? "Saving..." : "Save Changes"}
-</button>
+              {loading ? "Saving..." : "Save Changes"}
+            </button>
           </Modal>
         )}
       </AnimatePresence>
@@ -489,18 +479,17 @@ export default function VerificationDetails({ users }) {
               onChange={(e) => handleChange(e, "bank")}
             />
 
-
             <button
-  onClick={saveBank}
-  disabled={loading}
-  className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
->
-  {loading && (
-    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-  )}
+              onClick={saveBank}
+              disabled={loading}
+              className="cursor-pointer  mt-4 w-full bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
+            >
+              {loading && (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              )}
 
-  {loading ? "Saving..." : "Save Changes"}
-</button>
+              {loading ? "Saving..." : "Save Changes"}
+            </button>
           </Modal>
         )}
       </AnimatePresence>
@@ -517,14 +506,14 @@ export default function VerificationDetails({ users }) {
             <div className="flex gap-3">
               <button
                 onClick={() => setVerifyType(null)}
-                className="flex-1 border py-2 rounded-lg"
+                className="cursor-pointer  flex-1 border py-2 rounded-lg"
               >
                 Cancel
               </button>
 
               <button
                 onClick={handleVerify}
-                className="flex-1 bg-green-600 text-white py-2 rounded-lg flex justify-center gap-2"
+                className="cursor-pointer flex-1 bg-green-600 text-white py-2 rounded-lg flex justify-center gap-2"
               >
                 {loading && (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -576,7 +565,7 @@ function Modal({ title, children, close }) {
       >
         <button
           onClick={close}
-          className="absolute right-4 top-4 cursor-pointer"
+          className="cursor-pointer  absolute right-4 top-4 cursor-pointer"
         >
           <X size={18} />
         </button>
