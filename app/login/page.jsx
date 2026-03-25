@@ -112,7 +112,7 @@ export default function LoginPage() {
       toast.success("Login successful 🎉");
        localStorage.setItem("token", data.token);
        localStorage.setItem("user_id",data.user.id);
-       // connectSocket(data.user.id);// socket
+      //  connectSocket(data.user.id);// socket
        localStorage.setItem("auth", "true");
        window.location.href = "/dashboard";
 

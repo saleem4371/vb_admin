@@ -28,9 +28,9 @@ export default function MobileHeader({ setOpen }) {
         />
       </div>
 
-      <div className="bg-yellow-400 text-xs text-center py-1 font-medium">
+      {/* <div className="bg-yellow-400 text-xs text-center py-1 font-medium">
         ● YOU'RE IN TEST MODE
-      </div>
+      </div> */}
     </div>
   );
 }
