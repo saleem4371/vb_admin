@@ -11,6 +11,10 @@ export default function VerificationDetails({ users }) {
   const [verifyType, setVerifyType] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [docModal, setDocModal] = useState(false);
+const [ocrLoading, setOcrLoading] = useState(false);
+const [ocrText, setocrText] = useState('');
+
   console.log(users.user_id);
 
   const [kyc, setKyc] = useState({
@@ -151,17 +155,30 @@ export default function VerificationDetails({ users }) {
     setBankEdit(false);
   };
   const handleVerify = async () => {
+
+    
     setLoading(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+       const res = await fetch(
+        "https://websockettest.venuebook.in:5000/admin/kyc_update",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: users.user_id ,verifyType:verifyType }),
+        },
+      );
+
+      const data = await res.json();
+
+   // await new Promise((resolve) => setTimeout(resolve, 1200));
 
     if (verifyType === "kyc") {
-      setKyc({ ...kyc, verified: true });
+     // setKyc({ ...kyc, verified: true });
       toast.success("KYC verified successfully");
     }
 
     if (verifyType === "bank") {
-      setBank({ ...bank, verified: true });
+      //setBank({ ...bank, verified: true });
       toast.success("Bank verified successfully");
     }
 
@@ -201,13 +218,15 @@ export default function VerificationDetails({ users }) {
           setKyc({
             pan: kycData.pan_no,
             gst: kycData.gst_no,
+            pan_image: kycData.pan_image,
+            tan_image: kycData.tan_image,
             pan_name: gstPanDetails.legal_name || "",
             address: gstPanDetails.address || "",
             city: gstPanDetails.city || "",
             state: gstPanDetails.state || "",
             country: gstPanDetails.country || "",
             pincode: gstPanDetails.pincode || "",
-            verified: gstPanDetails.verified || false,
+            verified: kycData.pan_verify,
           });
 
           setBank({
@@ -215,7 +234,7 @@ export default function VerificationDetails({ users }) {
             account: kycData.account_no || "",
             bank: kycData.bank_name || "",
             ifsc: kycData.ifsc_code || "",
-            verified: kycData.verified || false,
+            verified: kycData.bank_verify,
           });
         }
       } catch (err) {
@@ -228,6 +247,80 @@ export default function VerificationDetails({ users }) {
 
     fetchData();
   }, [users?.user_id]);
+
+  // const verify_kyc = async() => {
+
+  //   const res = await fetch(
+  //       "https://websockettest.venuebook.in:5000/admin/kyc_update",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ id: users.user_id }),
+  //       },
+  //     );
+
+  //     const data = await res.json();
+  //     fetchData();
+  //     setVerifyType("kyc");
+  // }
+
+  const fetchOCR = async () => {
+  try {
+    setOcrLoading(true);
+
+    const res = await fetch(
+      "https://websockettest.venuebook.in:5000/v3/banner/get_vendor_ocr",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: users?.user_id }),
+      }
+    );
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+
+    const ocr = data.data || data;
+
+    
+    setocrText(ocr.ocrText)
+
+setDocModal(false);
+    //data
+
+    // 🔥 UPDATE DATABASE (reuse your API)
+    // await fetch(
+    //   "https://websockettest.venuebook.in:5000/admin/upload_kyc_upload",
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({
+    //       user_id: users?.user_id,
+    //       kyc: {
+    //         ...kyc,
+    //         pan_name: ocr.name || kyc.pan_name,
+    //         address: ocr.address || kyc.address,
+    //         city: ocr.city || kyc.city,
+    //         state: ocr.state || kyc.state,
+    //         country: ocr.country || kyc.country,
+    //         pincode: ocr.pincode || kyc.pincode,
+    //       },
+    //     }),
+    //   }
+    // );
+
+    toast.success("OCR Data Applied 🚀");
+    fetchData(); // refresh UI
+  } catch (err) {
+    console.error(err);
+    toast.error("OCR Fetch Failed");
+  } finally {
+    setOcrLoading(false);
+  }
+};
+
+
+  //setVerifyType("kyc")
 
   return (
     <>
@@ -245,7 +338,13 @@ export default function VerificationDetails({ users }) {
             </div>
 
             <div className="flex items-center gap-3">
-              {kyc.verified ? (
+                <button
+  onClick={() => setDocModal(true)}
+  className="cursor-pointer text-xs px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow hover:scale-105 transition"
+>
+  View Document
+</button>
+              {kyc.verified == 2 ? (
                 <span className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
                   <CheckCircle size={14} /> Verified
                 </span>
@@ -287,18 +386,21 @@ export default function VerificationDetails({ users }) {
               </span>
             </div>
           </div>
+          {/* { ocrText } */}
 
         
 
-          {kyc.pan?.trim() && !kyc.verified && (
+          {kyc.verified == 1 && (
             <motion.button
               whileTap={{ scale: 0.95 }}
-              onClick={() => setVerifyType("kyc")}
+               onClick={() => setVerifyType("kyc")}
               className="cursor-pointer mt-5 w-full bg-indigo-600 text-white py-2 rounded-lg"
             >
               Verify KYC
             </motion.button>
           )}
+
+         
         </motion.div>
 
         {/* BANK CARD */}
@@ -314,7 +416,7 @@ export default function VerificationDetails({ users }) {
             </div>
 
             <div className="flex items-center gap-3">
-              {bank.verified ? (
+              {bank.verified == 2 ? (
                 <span className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
                   <CheckCircle size={14} /> Verified
                 </span>
@@ -330,6 +432,7 @@ export default function VerificationDetails({ users }) {
               >
                 <Pencil size={16} /> Edit
               </button>
+             
             </div>
           </div>
 
@@ -354,7 +457,7 @@ export default function VerificationDetails({ users }) {
             </div>
           </div>
 
-          {bank.account?.trim() && !bank.verified && (
+          {bank.verified ==1 && (
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setVerifyType("bank")}
@@ -525,6 +628,84 @@ export default function VerificationDetails({ users }) {
           </Modal>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+  {docModal && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+    >
+      <motion.div
+        initial={{ scale: 0.8, y: 40 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.8, y: 40 }}
+        transition={{ type: "spring", stiffness: 120 }}
+        className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative"
+      >
+        {/* CLOSE */}
+        <button
+          onClick={() => setDocModal(false)}
+          className="absolute right-4 top-4 text-gray-400 hover:text-black"
+        >
+          <X />
+        </button>
+
+        {/* HEADER */}
+        <h2 className="text-xl font-semibold mb-4">
+          📄 Document Preview
+        </h2>
+
+     {/* DOCUMENT PREVIEW */}
+<div className="h-52 rounded-xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
+
+  {kyc?.pan_image ? (
+    kyc.pan_image.endsWith(".pdf") ? (
+
+      // 📄 PDF VIEW
+      <iframe
+        src={`https://websockettest.venuebook.in:5000/${kyc.pan_image}`}
+        className="w-full h-full rounded-xl"
+      />
+
+    ) : (
+
+      // 🖼️ IMAGE VIEW
+      <img
+        src={`https://websockettest.venuebook.in:5000/${kyc.pan_image}`}
+        alt="KYC Document"
+        className="w-full h-full object-cover rounded-xl transition-transform duration-300 hover:scale-105"
+      />
+
+    )
+  ) : (
+
+    // ❌ EMPTY STATE
+    <div className="text-gray-400 text-sm">
+      No Document Uploaded
+    </div>
+
+  )}
+
+</div>
+
+        {/* OCR BUTTON */}
+        <button
+          onClick={fetchOCR}
+          disabled={ocrLoading}
+          className="cursor-pointer mt-5 w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] transition"
+        >
+          {ocrLoading && (
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          )}
+          {ocrLoading ? "Fetching OCR..." : "Fetch Data from OCR"}
+        </button>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
     </>
   );
 }
